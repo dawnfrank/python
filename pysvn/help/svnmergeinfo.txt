@@ -1,0 +1,72 @@
+mergeinfo: Display merge-related information.
+usage: 1. mergeinfo SOURCE[@REV] [TARGET[@REV]]
+       2. mergeinfo --show-revs=WHICH SOURCE[@REV] [TARGET[@REV]]
+
+  1. Summarize the history of merging between SOURCE and TARGET. The graph
+     shows, from left to right:
+       the youngest common ancestor of the branches;
+       the latest full merge in either direction, and thus the common base
+         that will be used for the next complete merge;
+       the repository path and revision number of the tip of each branch.
+
+  2. Print the revision numbers on SOURCE that have been merged to TARGET
+     (with --show-revs=merged), or that have not been merged to TARGET
+     (with --show-revs=eligible). Print only revisions in which there was
+     at least one change in SOURCE.
+
+     If --revision (-r) is provided, filter the displayed information to
+     show only that which is associated with the revisions within the
+     specified range.  Revision numbers, dates, and the 'HEAD' keyword are
+     valid range values.
+
+  SOURCE and TARGET are the source and target branch URLs, respectively.
+  (If a WC path is given, the corresponding base URL is used.) The default
+  TARGET is the current working directory ('.'). REV specifies the revision
+  to be considered the tip of the branch; the default for SOURCE is HEAD,
+  and the default for TARGET is HEAD for a URL or BASE for a WC path.
+
+  The depth can be 'empty' or 'infinity'; the default is 'empty'.
+
+Valid options:
+  -r [--revision] ARG      : ARG (some commands also take ARG1:ARG2 range)
+                             A revision argument can be one of:
+                                NUMBER       revision number
+                                '{' DATE '}' revision at start of the date
+                                'HEAD'       latest in repository
+                                'BASE'       base rev of item's working copy
+                                'COMMITTED'  last commit at or before BASE
+                                'PREV'       revision just before COMMITTED
+  -R [--recursive]         : descend recursively, same as --depth=infinity
+  -q [--quiet]             : print nothing, or only summary information
+  -v [--verbose]           : print extra information
+  --depth ARG              : limit operation by depth ARG ('empty', 'files',
+                             'immediates', or 'infinity')
+  --show-revs ARG          : specify which collection of revisions to display
+                             ('merged', 'eligible')
+  --log                    : show revision log message, author and date
+  --incremental            : give output suitable for concatenation
+
+Global options:
+  --username ARG           : specify a username ARG
+  --password ARG           : specify a password ARG (caution: on many operating
+                             systems, other users will be able to see this)
+  --no-auth-cache          : do not cache authentication tokens
+  --non-interactive        : do no interactive prompting (default is to prompt
+                             only if standard input is a terminal device)
+  --force-interactive      : do interactive prompting even if standard input
+                             is not a terminal device
+  --trust-server-cert      : deprecated; same as
+                             --trust-server-cert-failures=unknown-ca
+  --trust-server-cert-failures ARG : with --non-interactive, accept SSL server
+                             certificates with failures; ARG is comma-separated
+                             list of 'unknown-ca' (Unknown Authority),
+                             'cn-mismatch' (Hostname mismatch), 'expired'
+                             (Expired certificate), 'not-yet-valid' (Not yet
+                             valid certificate) and 'other' (all other not
+                             separately classified certificate errors).
+  --config-dir ARG         : read user configuration files from directory ARG
+  --config-option ARG      : set user configuration option in the format:
+                                 FILE:SECTION:OPTION=[VALUE]
+                             For example:
+                                 servers:global:http-library=serf
+

@@ -1,0 +1,49 @@
+auth: Manage cached authentication credentials.
+usage: 1. svn auth [PATTERN ...]
+usage: 2. svn auth --remove PATTERN [PATTERN ...]
+
+  With no arguments, list all cached authentication credentials.
+  Authentication credentials include usernames, passwords,
+  SSL certificates, and SSL client-certificate passphrases.
+  If PATTERN is specified, only list credentials with attributes matching one
+  or more patterns. With the --remove option, remove cached authentication
+  credentials matching one or more patterns.
+
+  If more than one pattern is specified credentials are considered only they
+  match all specified patterns. Patterns are matched case-sensitively and may
+  contain glob wildcards:
+    ?      matches any single character
+    *      matches a sequence of arbitrary characters
+    [abc]  matches any of the characters listed inside the brackets
+  Note that wildcards will usually need to be quoted or escaped on the
+  command line because many command shells will interfere by trying to
+  expand them.
+
+Valid options:
+  --remove                 : remove matching authentication credentials
+  --show-passwords         : show cached passwords
+
+Global options:
+  --username ARG           : specify a username ARG
+  --password ARG           : specify a password ARG (caution: on many operating
+                             systems, other users will be able to see this)
+  --no-auth-cache          : do not cache authentication tokens
+  --non-interactive        : do no interactive prompting (default is to prompt
+                             only if standard input is a terminal device)
+  --force-interactive      : do interactive prompting even if standard input
+                             is not a terminal device
+  --trust-server-cert      : deprecated; same as
+                             --trust-server-cert-failures=unknown-ca
+  --trust-server-cert-failures ARG : with --non-interactive, accept SSL server
+                             certificates with failures; ARG is comma-separated
+                             list of 'unknown-ca' (Unknown Authority),
+                             'cn-mismatch' (Hostname mismatch), 'expired'
+                             (Expired certificate), 'not-yet-valid' (Not yet
+                             valid certificate) and 'other' (all other not
+                             separately classified certificate errors).
+  --config-dir ARG         : read user configuration files from directory ARG
+  --config-option ARG      : set user configuration option in the format:
+                                 FILE:SECTION:OPTION=[VALUE]
+                             For example:
+                                 servers:global:http-library=serf
+

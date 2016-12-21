@@ -1,0 +1,138 @@
+status (stat, st): Print the status of working copy files and directories.
+usage: status [PATH...]
+
+  With no args, print only locally modified items (no network access).
+  With -q, print only summary information about locally modified items.
+  With -u, add working revision and server out-of-date information.
+  With -v, print full revision information on every item.
+
+  The first seven columns in the output are each one character wide:
+    First column: Says if item was added, deleted, or otherwise changed
+      ' ' no modifications
+      'A' Added
+      'C' Conflicted
+      'D' Deleted
+      'I' Ignored
+      'M' Modified
+      'R' Replaced
+      'X' an unversioned directory created by an externals definition
+      '?' item is not under version control
+      '!' item is missing (removed by non-svn command) or incomplete
+      '~' versioned item obstructed by some item of a different kind
+    Second column: Modifications of a file's or directory's properties
+      ' ' no modifications
+      'C' Conflicted
+      'M' Modified
+    Third column: Whether the working copy is locked for writing by
+                  another Subversion client modifying the working copy
+      ' ' not locked for writing
+      'L' locked for writing
+    Fourth column: Scheduled commit will create a copy (addition-with-history)
+      ' ' no history scheduled with commit (item was newly added)
+      '+' history scheduled with commit (item was copied)
+    Fifth column: Whether the item is switched or a file external
+      ' ' normal
+      'S' the item has a Switched URL relative to the parent
+      'X' a versioned file created by an eXternals definition
+    Sixth column: Whether the item is locked in repository for exclusive commit
+      (without -u)
+      ' ' not locked by this working copy
+      'K' locked by this working copy, but lock might be stolen or broken
+      (with -u)
+      ' ' not locked in repository, not locked by this working copy
+      'K' locked in repository, lock owned by this working copy
+      'O' locked in repository, lock owned by another working copy
+      'T' locked in repository, lock owned by this working copy was stolen
+      'B' not locked in repository, lock owned by this working copy is broken
+    Seventh column: Whether the item is the victim of a tree conflict
+      ' ' normal
+      'C' tree-Conflicted
+    If the item is a tree conflict victim, an additional line is printed
+    after the item's status line, explaining the nature of the conflict.
+
+  The out-of-date information appears in the ninth column (with -u):
+      '*' a newer revision exists on the server
+      ' ' the working copy is up to date
+
+  Remaining fields are variable width and delimited by spaces:
+    The working revision (with -u or -v; '-' if the item is copied)
+    The last committed revision and last committed author (with -v)
+    The working copy path is always the final field, so it can
+      include spaces.
+
+  The presence of a question mark ('?') where a working revision, last
+  committed revision, or last committed author was expected indicates
+  that the information is unknown or irrelevant given the state of the
+  item (for example, when the item is the result of a copy operation).
+  The question mark serves as a visual placeholder to facilitate parsing.
+
+  Example output:
+    svn status wc
+     M      wc/bar.c
+    A  +    wc/qax.c
+
+    svn status -u wc
+     M             965   wc/bar.c
+            *      965   wc/foo.c
+    A  +             -   wc/qax.c
+    Status against revision:   981
+
+    svn status --show-updates --verbose wc
+     M             965      938 kfogel       wc/bar.c
+            *      965      922 sussman      wc/foo.c
+    A  +             -      687 joe          wc/qax.c
+                   965      687 joe          wc/zig.c
+    Status against revision:   981
+
+    svn status
+     M      wc/bar.c
+    !     C wc/qaz.c
+          >   local missing, incoming edit upon update
+    D       wc/qax.c
+
+Valid options:
+  -u [--show-updates]      : display update information
+  -v [--verbose]           : print extra information
+  -N [--non-recursive]     : obsolete; try --depth=files or --depth=immediates
+  --depth ARG              : limit operation by depth ARG ('empty', 'files',
+                             'immediates', or 'infinity')
+  -r [--revision] ARG      : ARG (some commands also take ARG1:ARG2 range)
+                             A revision argument can be one of:
+                                NUMBER       revision number
+                                '{' DATE '}' revision at start of the date
+                                'HEAD'       latest in repository
+                                'BASE'       base rev of item's working copy
+                                'COMMITTED'  last commit at or before BASE
+                                'PREV'       revision just before COMMITTED
+  -q [--quiet]             : don't print unversioned items
+  --no-ignore              : disregard default and svn:ignore and
+                             svn:global-ignores property ignores
+  --incremental            : give output suitable for concatenation
+  --xml                    : output in XML
+  --ignore-externals       : ignore externals definitions
+  --changelist [--cl] ARG  : operate only on members of changelist ARG
+
+Global options:
+  --username ARG           : specify a username ARG
+  --password ARG           : specify a password ARG (caution: on many operating
+                             systems, other users will be able to see this)
+  --no-auth-cache          : do not cache authentication tokens
+  --non-interactive        : do no interactive prompting (default is to prompt
+                             only if standard input is a terminal device)
+  --force-interactive      : do interactive prompting even if standard input
+                             is not a terminal device
+  --trust-server-cert      : deprecated; same as
+                             --trust-server-cert-failures=unknown-ca
+  --trust-server-cert-failures ARG : with --non-interactive, accept SSL server
+                             certificates with failures; ARG is comma-separated
+                             list of 'unknown-ca' (Unknown Authority),
+                             'cn-mismatch' (Hostname mismatch), 'expired'
+                             (Expired certificate), 'not-yet-valid' (Not yet
+                             valid certificate) and 'other' (all other not
+                             separately classified certificate errors).
+  --config-dir ARG         : read user configuration files from directory ARG
+  --config-option ARG      : set user configuration option in the format:
+                                 FILE:SECTION:OPTION=[VALUE]
+                             For example:
+                                 servers:global:http-library=serf
+

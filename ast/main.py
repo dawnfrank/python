@@ -8,7 +8,8 @@ tree=ast.parse(codestr,"test.py")
 #Module
 print dir(tree)
 print tree
-print tree.body		
+print tree.body		 
+
 """
 
 """

@@ -1,0 +1,66 @@
+move (mv, rename, ren): Move (rename) an item in a working copy or repository.
+usage: move SRC... DST
+
+  SRC and DST can both be working copy (WC) paths or URLs:
+    WC  -> WC:  move an item in a working copy, as a local change to
+                be committed later (with or without further changes)
+    URL -> URL: move an item in the repository directly, immediately
+                creating a new revision in the repository
+  All the SRCs must be of the same type. When moving multiple sources,
+  they will be added as children of DST, which must be a directory.
+
+  SRC and DST of WC -> WC moves must be committed in the same revision.
+  Furthermore, WC -> WC moves will refuse to move a mixed-revision subtree.
+  To avoid unnecessary conflicts, it is recommended to run 'svn update'
+  to update the subtree to a single revision before moving it.
+  The --allow-mixed-revisions option is provided for backward compatibility.
+
+  The --revision option has no use and is deprecated.
+
+Valid options:
+  -r [--revision] ARG      : ARG (some commands also take ARG1:ARG2 range)
+                             A revision argument can be one of:
+                                NUMBER       revision number
+                                '{' DATE '}' revision at start of the date
+                                'HEAD'       latest in repository
+                                'BASE'       base rev of item's working copy
+                                'COMMITTED'  last commit at or before BASE
+                                'PREV'       revision just before COMMITTED
+  -q [--quiet]             : print nothing, or only summary information
+  --force                  : force operation to run
+  --parents                : make intermediate directories
+  --allow-mixed-revisions  : Allow operation on mixed-revision working copy.
+                             Use of this option is not recommended!
+                             Please run 'svn update' instead.
+  -m [--message] ARG       : specify log message ARG
+  -F [--file] ARG          : read log message from file ARG
+  --force-log              : force validity of log message source
+  --editor-cmd ARG         : use ARG as external editor
+  --encoding ARG           : treat value as being in charset encoding ARG
+  --with-revprop ARG       : set revision property ARG in new revision
+                             using the name[=value] format
+
+Global options:
+  --username ARG           : specify a username ARG
+  --password ARG           : specify a password ARG (caution: on many operating
+                             systems, other users will be able to see this)
+  --no-auth-cache          : do not cache authentication tokens
+  --non-interactive        : do no interactive prompting (default is to prompt
+                             only if standard input is a terminal device)
+  --force-interactive      : do interactive prompting even if standard input
+                             is not a terminal device
+  --trust-server-cert      : deprecated; same as
+                             --trust-server-cert-failures=unknown-ca
+  --trust-server-cert-failures ARG : with --non-interactive, accept SSL server
+                             certificates with failures; ARG is comma-separated
+                             list of 'unknown-ca' (Unknown Authority),
+                             'cn-mismatch' (Hostname mismatch), 'expired'
+                             (Expired certificate), 'not-yet-valid' (Not yet
+                             valid certificate) and 'other' (all other not
+                             separately classified certificate errors).
+  --config-dir ARG         : read user configuration files from directory ARG
+  --config-option ARG      : set user configuration option in the format:
+                                 FILE:SECTION:OPTION=[VALUE]
+                             For example:
+                                 servers:global:http-library=serf
+
