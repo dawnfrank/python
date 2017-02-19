@@ -1,9 +1,13 @@
 import svnfunc
 
-TRUNK = "file:///G:/SVNLOCAL"
-COMMIT = "file:///G:/SVNLOCAL1"
+TRUNK = "file:///G:/SVNLOCAL/trunk"
+COMMIT = "file:///G:/SVNLOCAL/branch"
+LOCAL = "G:/SVNTEST/branch"
+
+def GetSVNMergeInfo(source,target):
+	svnfunc.SvnMergeInfo(source,target)
 
 def main():
-	svnfunc.SvnMergeInfo(COMMIT)
+	GetSVNMergeInfo(TRUNK,LOCAL)
 
 main()
